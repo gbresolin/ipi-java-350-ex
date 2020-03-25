@@ -1,6 +1,5 @@
 package com.ipiecoles.java.java350.model;
 
-import com.ipiecoles.java.java350.Employe;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
