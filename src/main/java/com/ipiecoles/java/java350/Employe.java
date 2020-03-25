@@ -1,4 +1,4 @@
-package com.ipiecoles.java.java350.model;
+package com.ipiecoles.java.java350;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,9 +48,11 @@ public class Employe {
      * @return
      */
     public Integer getNombreAnneeAnciennete() {
-        return LocalDate.now().getYear() - dateEmbauche.getYear();
+        if (dateEmbauche != null && dateEmbauche.isBefore(LocalDate.now())) {
+            return LocalDate.now().getYear() - dateEmbauche.getYear();
+        }
+            return 0;
     }
-
     public Integer getNbConges() {
         return Entreprise.NB_CONGES_BASE + this.getNombreAnneeAnciennete();
     }
