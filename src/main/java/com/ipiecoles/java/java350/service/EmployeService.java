@@ -6,6 +6,8 @@ import com.ipiecoles.java.java350.model.Entreprise;
 import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class EmployeService {
 
     @Autowired
     private EmployeRepository employeRepository;
+
+    //sLf4j
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Méthode enregistrant un nouvel employé dans l'entreprise
@@ -32,18 +37,27 @@ public class EmployeService {
      */
     public void embaucheEmploye(String nom, String prenom, Poste poste, NiveauEtude niveauEtude, Double tempsPartiel) throws EmployeException, EntityExistsException {
 
+        logger.debug("Coucou");
+        logger.info("Embauche de l'employé {} {} diplômé de {} en tant que {} avec un taux d'activité de {} ", prenom, nom, niveauEtude.name(), poste.name(), tempsPartiel);
+
+
         //Récupération du type d'employé à partir du poste
         String typeEmploye = poste.name().substring(0,1);
+        logger.debug("Type d'employé : " + typeEmploye);
 
         //Récupération du dernier matricule...
         String lastMatricule = employeRepository.findLastMatricule();
         if(lastMatricule == null){
+            logger.warn("Aucun employé en base, affectation du matricule initial");
             lastMatricule = Entreprise.MATRICULE_INITIAL;
         }
         //... et incrémentation
         Integer numeroMatricule = Integer.parseInt(lastMatricule) + 1;
         if(numeroMatricule >= 100000){
+            logger.error("Limite des 100000 matricules atteinte !");
             throw new EmployeException("Limite des 100000 matricules atteinte !");
+        } else if(numeroMatricule >= 90000){
+            logger.error("Seuil des 90000 employés atteints !");
         }
         //On complète le numéro avec des 0 à gauche
         String matricule = "00000" + numeroMatricule;
@@ -51,6 +65,7 @@ public class EmployeService {
 
         //On vérifie l'existence d'un employé avec ce matricule
         if(employeRepository.findByMatricule(matricule) != null){
+            logger.error("L'employé de matricule " + matricule + " existe déjà en BDD");
             throw new EntityExistsException("L'employé de matricule " + matricule + " existe déjà en BDD");
         }
 
@@ -59,11 +74,15 @@ public class EmployeService {
         if(tempsPartiel != null){
             salaire = salaire * tempsPartiel;
         }
+        salaire = Math.round(salaire * 100d) / 100d;
 
         //Création et sauvegarde en BDD de l'employé.
         Employe employe = new Employe(nom, prenom, matricule, LocalDate.now(), salaire, Entreprise.PERFORMANCE_BASE, tempsPartiel);
 
+        logger.debug("Employé qui va être sauvegardé en basé : {}", employe.toString());
         employeRepository.save(employe);
+
+        logger.info("Employé sauvé en base : {}", employe.toString());
 
     }
 

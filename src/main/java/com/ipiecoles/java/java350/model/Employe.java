@@ -53,6 +53,7 @@ public class Employe {
         }
             return 0;
     }
+
     public Integer getNbConges() {
         return Entreprise.NB_CONGES_BASE + this.getNombreAnneeAnciennete();
     }
