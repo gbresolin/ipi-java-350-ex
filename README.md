@@ -1,4 +1,4 @@
-# TP sur la qualité logicielle gbresolin
+# TP sur la qualité logicielle gregory bresolin
 
 Exercices de Java, module 350 pour l'IPI. Il est nécessaire de forker ce repository pour pouvoir faire tout le TP !! Après chaque question, pusher vos modifications sur votre repository.
 
