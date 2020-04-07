@@ -8,6 +8,7 @@ import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -116,6 +117,94 @@ class EmployeServiceTest {
         })//Then
                 .isInstanceOf(EmployeException.class).hasMessage("Message de l'erreur");
     }
+
+
+    @Test
+    public void calculPerformanceCommercialCANull() {
+        //Given
+        //String matricule = "C00001";
+        //Long caTraite = null;
+        //Long objectifCa = 13454L;
+        try {
+            //When
+            employeService.calculPerformanceCommercial("C45679", null, 10000L);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e) {
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("Le chiffre d'affaire traité ne peut être négatif ou null !");
+        }
+    }
+
+    @Test
+    public void calculPerformanceCommercialCANegatif() {
+        try {
+            //When
+            employeService.calculPerformanceCommercial("C45679", -2000L, 10000L);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e) {
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("Le chiffre d'affaire traité ne peut être négatif ou null !");
+        }
+    }
+
+
+    @Test
+    public void calculPerformanceCommercialObjectifCANull() {
+        //Given
+        try {
+            //When
+            employeService.calculPerformanceCommercial("C45679", 4000L, null);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e) {
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("L'objectif de chiffre d'affaire ne peut être négatif ou null !");
+        }
+    }
+
+    @Test
+    public void calculPerformanceCommercialObjectifCANegatif() {
+        //Given
+        try {
+            //When
+            employeService.calculPerformanceCommercial("C45679", 4000L, -10000L);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e) {
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("L'objectif de chiffre d'affaire ne peut être négatif ou null !");
+        }
+    }
+
+    @Test
+    public void calculPerformanceCommercialMatriculeNoStartC() {
+        //Given
+        try {
+            //When
+            employeService.calculPerformanceCommercial("M45679", 4000L, 10000L);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e) {
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("Le matricule ne peut être null et doit commencer par un C !");
+        }
+    }
+
+
+
+
 
 
 }
