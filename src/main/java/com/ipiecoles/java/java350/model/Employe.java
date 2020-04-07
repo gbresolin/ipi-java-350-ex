@@ -123,7 +123,7 @@ case SATURDAY:var = var + 1;
         if(pourcentage < 0){
             throw new EmployeException("On veut augmenter le salaire, pas le diminuer !");
         }
-        
+
             this.salaire = Math.round(this.salaire) * (1 + pourcentage / 100);
     }
 
