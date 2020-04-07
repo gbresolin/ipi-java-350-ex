@@ -1,5 +1,6 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,6 +9,49 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.time.LocalDate;
 
 public class EmployeTest {
+
+    @Test
+    public void testaugmenterSalaireXPourcent() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Doe", "John", "T12345", LocalDate.now(), 2000d, 1,1.0);
+        Double pourcentage = 5d; // Augmenter salaire de 5%
+
+        //When
+        employe.augmenterSalaire(pourcentage);
+
+        //Then
+        Assertions.assertThat(employe.getSalaire()).isEqualTo(2100.0);
+    }
+
+    @Test
+    public void testaugmenterSalaireNull() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Doe", "John", "T12345", LocalDate.now(), null, 1,1.0);
+        Double pourcentage = 10d;
+
+        Assertions.assertThatThrownBy(() -> {
+            //When
+            employe.augmenterSalaire(pourcentage);
+        })  //Then
+            .isInstanceOf(EmployeException.class).hasMessage("Le salaire ne peut être null !");
+    }
+
+    @Test
+    public void testaugmenterSalairePourcentNegatif() throws EmployeException {
+        //Given
+        Employe employe = new Employe("Doe", "John", "T12345", LocalDate.now(), 2000d, 1,1.0);
+        Double pourcentage = -5d; // Diminuer salaire de 5%
+
+        Assertions.assertThatThrownBy(() -> {
+            //When
+            employe.augmenterSalaire(pourcentage);
+        })  //Then
+            .isInstanceOf(EmployeException.class).hasMessage("On veut augmenter le salaire, pas le diminuer !");
+    }
+
+
+
+
     @Test
     public void testNbAnneeAncienneteNow() {
         //Given

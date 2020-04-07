@@ -1,5 +1,7 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -113,7 +115,17 @@ case SATURDAY:var = var + 1;
     }
 
     //Augmenter salaire
-    //public void augmenterSalaire(double pourcentage){}
+    public void augmenterSalaire(double pourcentage)throws EmployeException {
+        if(this.salaire == null){
+            throw new EmployeException("Le salaire ne peut être null !");
+        }
+
+        if(pourcentage < 0){
+            throw new EmployeException("On veut augmenter le salaire, pas le diminuer !");
+        }
+        
+            this.salaire = Math.round(this.salaire) * (1 + pourcentage / 100);
+    }
 
     public Long getId() {
         return id;
