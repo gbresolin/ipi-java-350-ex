@@ -1,9 +1,6 @@
 package com.ipiecoles.java.java350.model;
 
 import com.ipiecoles.java.java350.exception.EmployeException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +12,6 @@ import java.util.Objects;
 
 @Entity
 public class Employe {
-
-    @Transient
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -120,12 +114,10 @@ public class Employe {
     //Augmenter salaire
     public void augmenterSalaire(double pourcentage)throws EmployeException {
         if(this.salaire == null){
-            logger.error("Le salaire ne peut être null !");
             throw new EmployeException("Le salaire ne peut être null !");
         }
 
         if(pourcentage < 0){
-            logger.error("On veut augmenter le salaire, pas le diminuer !");
             throw new EmployeException("On veut augmenter le salaire, pas le diminuer !");
         }
 
