@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Employe {
 
     //sLf4j
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    //private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -119,12 +119,12 @@ public class Employe {
     //Augmenter salaire
     public void augmenterSalaire(double pourcentage)throws EmployeException {
         if(this.salaire == null){
-            logger.error("Le salaire ne peut être null !");
+            //logger.error("Le salaire ne peut être null !");
             throw new EmployeException("Le salaire ne peut être null !");
         }
 
         if(pourcentage < 0){
-            logger.error("On veut augmenter le salaire, pas le diminuer !");
+            //logger.error("On veut augmenter le salaire, pas le diminuer !");
             throw new EmployeException("On veut augmenter le salaire, pas le diminuer !");
         }
 
