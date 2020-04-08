@@ -87,9 +87,28 @@ class EmployeServiceTest {
         Assertions.assertThat(employe.getSalaire()).isEqualTo(1825.46);
     }
 
-    @Test
-    void testEmbaucheEmployeLimiteMatricule(){
 
+    @Test
+    public void testEmbaucheEmployeLimiteMatricule(){
+        //Given
+        String nom = "Doe";
+        String prenom = "John";
+        Poste poste = Poste.MANAGER;
+        NiveauEtude niveauEtude = NiveauEtude.MASTER;
+        Double tempsPartiel = 0.5;
+        Mockito.when(employeRepository.findLastMatricule()).thenReturn("99999");
+
+        try {
+            //When
+            employeService.embaucheEmploye(nom, prenom, poste, niveauEtude, tempsPartiel);
+            Assertions.fail("Aurait du lancer une exception");
+        } catch (Exception e){
+            //Then
+            //Vérifie que l'exception levée est de type EmployeException
+            Assertions.assertThat(e).isInstanceOf(EmployeException.class);
+            //Vérifie le contenu du message
+            Assertions.assertThat(e.getMessage()).isEqualTo("Limite des 100000 matricules atteinte !");
+        }
     }
 
 
