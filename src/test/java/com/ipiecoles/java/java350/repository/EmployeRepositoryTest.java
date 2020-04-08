@@ -1,6 +1,7 @@
 package com.ipiecoles.java.java350.repository;
 
 import com.ipiecoles.java.java350.model.Employe;
+import com.ipiecoles.java.java350.model.Entreprise;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,5 +57,16 @@ class EmployeRepositoryTest {
 
     @Test
     void avgPerformanceWhereMatriculeStartsWith() {
+        //Given
+        Employe e = new Employe("Doe", "Jane", "C67890", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0);
+        employeRepository.save(e);
+
+        //When
+        Double avgPerformance = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
+
+        //Then
+        Assertions.assertThat(avgPerformance).isEqualTo(1.0);
     }
+
+
 }
