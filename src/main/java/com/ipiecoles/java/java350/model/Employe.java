@@ -1,6 +1,8 @@
 package com.ipiecoles.java.java350.model;
 
 import com.ipiecoles.java.java350.exception.EmployeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,8 @@ import java.util.Objects;
 @Entity
 public class Employe {
 
+    //sLf4j
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,14 +69,12 @@ public class Employe {
     }
 
     public Integer getNbRtt(LocalDate d){
-        int i1 = d.isLeapYear() ? 365 : 366;int var = 104;
+        int i1 = d.isLeapYear() ? 365 : 366;
+        int var = 104;
         switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
-        case THURSDAY: if(d.isLeapYear()) var =  var + 1; break;
-        case FRIDAY:
-        if(d.isLeapYear()) var =  var + 2;
-        else var =  var + 1;
-case SATURDAY:var = var + 1;
-                    break;
+            case THURSDAY: if(d.isLeapYear()) var =  var + 1; break;
+            case FRIDAY: if(d.isLeapYear()) var =  var + 2; else var =  var + 1;
+            case SATURDAY: var = var + 1; break;
         }
         int monInt = (int) Entreprise.joursFeries(d).stream().filter(localDate ->
                 localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue()).count();
@@ -117,10 +119,12 @@ case SATURDAY:var = var + 1;
     //Augmenter salaire
     public void augmenterSalaire(double pourcentage)throws EmployeException {
         if(this.salaire == null){
+            logger.error("Le salaire ne peut être null !");
             throw new EmployeException("Le salaire ne peut être null !");
         }
 
         if(pourcentage < 0){
+            logger.error("On veut augmenter le salaire, pas le diminuer !");
             throw new EmployeException("On veut augmenter le salaire, pas le diminuer !");
         }
 
