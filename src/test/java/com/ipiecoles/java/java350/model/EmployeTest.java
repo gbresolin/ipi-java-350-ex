@@ -24,7 +24,7 @@ public class EmployeTest {
     }
 
     @Test
-    public void testaugmenterSalaireNull() throws EmployeException {
+    public void testaugmenterSalaireNull() {
         //Given
         Employe employe = new Employe("Doe", "John", "T12345", LocalDate.now(), null, 1,1.0);
         Double pourcentage = 10d;
@@ -37,7 +37,7 @@ public class EmployeTest {
     }
 
     @Test
-    public void testaugmenterSalairePourcentNegatif() throws EmployeException {
+    public void testaugmenterSalairePourcentNegatif() {
         //Given
         Employe employe = new Employe("Doe", "John", "T12345", LocalDate.now(), 2000d, 1,1.0);
         Double pourcentage = -5d; // Diminuer salaire de 5%
@@ -48,8 +48,6 @@ public class EmployeTest {
         })  //Then
             .isInstanceOf(EmployeException.class).hasMessage("On veut augmenter le salaire, pas le diminuer !");
     }
-
-
 
 
     @Test
