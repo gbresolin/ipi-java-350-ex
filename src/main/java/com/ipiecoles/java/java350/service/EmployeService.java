@@ -43,7 +43,7 @@ public class EmployeService {
 
         //Récupération du type d'employé à partir du poste
         String typeEmploye = poste.name().substring(0,1);
-        logger.debug("Type d'employé : " + typeEmploye);
+        logger.debug("Type d'employé : {}", typeEmploye);
 
         //Récupération du dernier matricule...
         String lastMatricule = employeRepository.findLastMatricule();
